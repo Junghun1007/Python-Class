@@ -1,0 +1,287 @@
+------------------------------- quiz (1)
+전화번호부 관리 프로그램
+
+# 이름, 전화번호 리스트 작성
+# 등록, 검색, 삭제, 조회, 종료
+
+namelist =[]
+phonelist = []
+
+while True:
+  print("\n------- 연락처 관리 프로그램-----")
+  print("1. 연락처등록")
+  print("2. 연락처검색")
+  print("3. 연락처삭제")
+  print("4. 연락처수정")
+  print("5. 모든 연락처 조회")
+  print("6. 프로그램 종료")
+  print("----------------------------------")
+
+  menu = int(input("메뉴를 입력하세요 : "))
+  if menu == 1:                         # 등록
+    print("-" *20)
+    print("연락처 등록을 시작합니다.")
+    name = input("이름 : ")
+    phone = input("전화번호 : ")
+    namelist.append(name)
+    phonelist.append(phone)
+  elif menu == 2:                       # 검색
+    i = True
+    while i:                            # 입력 오류 반복
+      name = input("검색할 이름을 입력하세요: ")
+      if name not in namelist:
+        print("입력하신 이름이 없습니다.")
+        continue
+      else:
+        index = namelist.index(name)    # find
+        i = False
+    print(name + "의 전화번호는 "+phonelist[index])
+  elif menu == 3:                       # 삭제
+    i = True
+    while i:                            # 입력 오류 반복
+      name = input("삭제할 이름을 입력하세요. : ")
+      if name not in namelist:
+        print("입력하신 이름이 없습니다.")
+        continue
+      else:
+        i = False
+    delindex = namelist.index(name)     # find
+    namelist.remove(name)
+    del phonelist[delindex]
+    print("입력하신 이름이 삭제되었습니다.")
+  elif menu == 4:                       # 수정
+    i = True
+    while i:                            # 입력 오류 반복
+      name = input("번호를 수정할 이름을 입력하세요: ")
+      if name not in namelist:
+        print("입력하신 이름이 없습니다.")
+        continue
+      else:
+        i = False
+    fixindex = namelist.index(name)     # find
+    fixnum = input("수정된 번호를 입력하세요. : ")
+    phonelist[fixindex] = fixnum
+    print("수정되었습니다.")
+  elif menu == 5:                       # 삭제
+    print("========== 전체 연락처 조회 ==========")
+    for i in range(len(namelist)):      # for name in namelist:
+      print(namelist[i] +":"+phonelist[i])
+  elif menu == 6:                       #  종료
+    print("프로그램이 종료 되었습니다. ")
+    exit(0)                             # break
+  else:
+    print("메뉴를 다시 입력해 주세요.")  
+
+---------------------------- 튜플
+
+* 튜플 (tuple)
+ - 튜플은 값의 집합이라는 측면에서 리스트와 유사하지만
+  값을 한번 저장한 후에는 내부 요소의 편집이 불가능합니다.
+ - 튜플은 상수리스트라고도 부르며 ()를 사용하며 표현합니다.
+
+ex)
+  points = (87, 97, 23, 45, 100)
+
+  print(type(points))
+  sum = 0
+  for p in points:
+    sum+=p
+  print(p)
+
+# 튜플을 만들 때는 ()를 생략할 수 있습니다.
+
+tu = 1, 2, 3 ,4
+
+print(type(tu))
+
+# 튜플은 리스트와 마찬가지로 unpackaging이 가능합니다.
+
+n1 , n2 ,n3 ,n4, n5 = 2, 4, 6, 7, 10
+
+# 튜플로 가능한 문법 (내부 요소값을 바꾸지 않는 행위)
+
+print(tu[2])
+print(tu[1:3])
+
+print(tu + (10,11)) # 새로운 튜플 생성
+print(tu * 2)
+
+# 튜플로 불가능한 문법 (내부 요소값을 바꾸는 행위)
+
+# tu[2] = 19  (x)
+# tu.append(10) 원본이 늘어남 (x)
+# del tu[0]
+
+# tuple이 지원하는 메소드는 index, count뿐입니다.
+
+* 튜플을 사용하는 이유
+
+- 튜플로 가능한 일은 리스트로도 모두 가능합니다.
+ 리스트는 튜플에 비해 요소를 편집하는 것까지 가능합니다.
+- 결국, 리스트는 튜플의 기능을 모두 포괄하는 더 큰 범위의
+ 타입이지만, 튜플을 사용해야 하는 이유는 있습니다.
+
+ 1. 비용의 차이: 리스트는 변경의 가능성을 항상 대비해야 하므로
+  더 많은 메모리를 소모하고 속도도 그만큼 느립니다.
+  이에 비해, 튜플은 값의 집합만 표현할 뿐, 바뀔 일이 없으므로
+  내부 구조가 단순하고 속도도 빠릅니다.
+
+ 2. 데이터 안정성: 리스트는 실수로 내부 데이터가 의도치 않게
+  바뀔 수가 있지만, 튜플은 한 번 정해지면 바뀔 수가 없기 때문에
+  실수할 위험이 적습니다.
+  데이터베이스나 네트워크에서 얻은 데이터는 단순히 참조만 하면 될 뿐,
+  편집할 일이 없으므로, 리스트로 관리하는 것보다 튜플로 처리하는 것이
+  안전합니다.
+
+ 3. 리스트와 상호 변경이 가능: 리스트와 튜플은
+  값 변경 가능성 여부만 다를 뿐, 구조가 유사해서 상호 변경이 가능합니다.
+  리스트를 튜플로 변환할 때는 내장함수 tuple()을 사용하고
+  튜플을 리스트로 변환할 때는 내장함수 list()를 사용합니다.
+  
+* 튜플 변환
+
+  p = [2,3,4,5,6]
+
+  p = tuple(p)
+  print(type(p))
+
+  p = list(p)
+  print(type(p))
+  
+  p[3] = 100
+  p.append(17)
+  print(p)
+
+----------------------------------- 사전
+
+* 사전 (Dictionary)
+
+ - 사전은 키(key)와 값(value)의 쌍을 저장하는 대용량의
+  자료구조입니다.
+ - 사전은 Map이라고도 부르며 연관배열이라고도 부릅니다.
+ - 사전을 정의하는 기호는 {}이고, 괄호 안에 데이터를 
+  key : value 형태로 나열하여 저장합니다.
+ - 순차적 자료형 x
+  ex)
+    students = {"멍멍이":"김철수", "야옹이":"박영희", "짹짹이":"홍길동"}
+
+    print(type(students))
+    print(len(students))
+
+ - 사전에 사용되는 key값은 중복값을 가질 수없고 변경도 불가능합니다.
+ - 하지만 value 값은 중복을 허용하며 데이터를 자유롭게 편집할 수도 있다.
+ - 사전 내부에 저장된 데이터를 검색할 때는 인덱스 대신에 key를 사용.
+ ex)
+  students = {"동멍멍이":"김철수", "야옹이":"박영희", "짹짹이":"홍길"}
+
+  print(students["멍멍이"])
+  print(students["짹짹이"])
+
+# print(students["메롱이"])
+# in 키워드를 사용하여 key의 존재 여부확인가능
+
+  print("멍멍이" in students)
+  print("메롱이" in students)
+
+  nick = input("별명을 입력하세요. ")
+
+  if nick in students:      # in을 사용하여 추출
+    print("별명이 %s인 학생의 이름은 %s입니다." % (nick, students[nick]))
+  else:
+    print(" X ")
+
+* 사전 내부 데이터 관리
+  - 사전은 변경 가능한 자료형이어서 실행 중에 데이터의 
+    추가, 삭제, 수정 등의 편집을 자유롭게 진행할 수 있습니다.
+
+
+ * 사전에 데이터 추가하기 (append'처럼' 동작)
+  - 사전 내부에 존재하지 않는 키를 사용하여 데이터를 대입하면
+    데이터가 key:value쌍으로 사전에 저장됩니다.
+  ex)
+   eng_kor = {"student":"학생", "apple":"사과","book":"책"}
+   eng_kor ["banana"] = "바나나"
+   print(eng_kor)
+
+* 사전의 데이터를 수정하기
+  - 사전 내부에 이미 존재하는 key를 사용하여 새로운 데이터를
+    대입하면 해당 key값에 맵핑되어있는 value값이 수정됩니다.
+  ex)
+    eng_kor = {"student":"학생", "apple":"사과","book":"책"}
+    eng_kor ["book"] = "서적"
+    print(eng_kor)
+
+ * 사전의 key목록들과 value목록을 따로 추출하고 싶다면 사전의 메서드 key(), values()를 사용
+  - 위 메소드들은 각각의 목록을 리스트로 반환합니다.
+  ex)
+    eng_kor = {"student":"학생", "apple":"사과","book":"책"}
+
+    print(eng_kor.keys())
+    print(eng_kor.values())
+
+* 사전의 반복분 처리
+  - for ~ in 뒤에 사전 데이터를 적으면 key만 반복 순회됩니다.
+  ex)
+    eng_kor = {"student":"학생", "apple":"사과","book":"책"}
+
+    for k in eng_kor:
+    print(k+":"+eng_kor[k])
+
+ * 사전의 데이터 삭제하기 (내장함수 del을 사용)
+
+  - del(사전이름[key])
+  - key를 입력하면 같이 맵핑된 value 값도 함께 삭제됩니다.
+
+  ex)
+    eng_kor = {"student":"학생", "apple":"사과","book":"책"}
+
+    del(eng_kor["student"])
+    print(eng_kor)
+
+ * 빈 사전 만들기
+    d = {}
+    d2 = dict()
+
+------------------------- quiz (2)
+
+''
+# 사전을 이용한 로그인 유효성 검증
+
+1. 아이디를 입력받아 사전에 입력된 key인지를 확인하세요.
+2. 사전에 입력된 아이디가 아니라면 
+  "존재하지 않는 회원입니다. "를 출력하세요.
+3. 아이디가 존재한다면 다시 한 번 비밀번호를 입력받아서
+  사전에 있는 비밀번호와 일치하는 지를 확인한 후
+  일치한다면 "로그인 성공!" 을 출력하고 반복문을 탈출하세요.
+  일치하지않으면 "비밀번호가 틀렸습니다. " 를 출력하세요.
+4. 로그인을 성공할 때 까지 계속해서 시도할 수있도록 로직을 작성하세요.
+
+'''
+
+
+user = {
+    "kim1234":"kkk1234",
+    "park4321":"ppp4321",
+    "abc1234":"aaa1111"
+}
+
+while True:
+  id = input("아이디를 입력하세요 : ")
+  if id in user:
+    password = input("비밀번호를 입력하세요 : ")
+    if user[id] == password:
+      print("로그인 성공!")
+      break
+  else:
+    print("존재하지 않는 회원입니다. ")
+    continue
+
+
+
+
+
+
+
+
+
+
