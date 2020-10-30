@@ -272,11 +272,12 @@ while True:
     if user[id] == password:
       print("로그인 성공!")
       break
+    else:
+      print("아이디 또는 비밀번호가 맞지않습니다.")
+      continue
   else:
     print("존재하지 않는 회원입니다. ")
     continue
-
-
 
 
 
