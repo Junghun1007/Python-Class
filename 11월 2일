@@ -1,0 +1,180 @@
+------------------------ 집합
+
+ * 집합 (set)
+
+  - 집합은 여러 값들의 모임이며, 저장순서가 보장되지 않고
+    중복값의 저장을 허용하지 않습니다.
+  - 사전과 마찬가지로 {}로 표현한다.
+  - set() -> 공집합
+
+1. 합집합(|) : 두 집합의 전체 요소들의 모음.
+2. 교집합(&) : 두 집합의 중복을 배제한 공통 요소들의 모음
+3. 차집합(-) : 왼쪽 집합에서 오른쪽 집합의 요소를 제거
+4. 베타적 차집합 (^) : 합집합 - 교집합
+5. 부분집합 (<=) : 왼쪽 집합이 오른쪽 집합의 부분집합인지의 여부를 검사
+
+asia = {'korean', 'china','japan'}
+
+asia.add('thailand')
+asia.add('china')
+asia.remove('china')
+
+asia.update("asia")
+print(asia)
+
+-------------------------- quiz (1)
+
+- 서로 다른 정수가 담긴 두 개의 리스트를 비교하여
+ li 안에 있는 정수가 li2에도 담겨있다면 그정수를 배제하세요.
+- 서로 겹치지 않는 정수만 담긴 새로운 리스트를 생성해 보세요.
+
+
+li = [1,2,3,4,5,6,7]
+li2 = [1,2,3,4,5,7,101]
+
+c1 = set(li)
+c2 = set(li2)
+c3 = c1 & c2
+# 베타적차집합(^) set(li)^set(li2)
+c4 = (c1 | c2) - c3
+li3  = list(c4)
+print(li3)
+
+
+-------------------------- 함수
+
+ * 함수 (function)
+
+  - 함수는 지속적으로 사용되는 코드블록에 이름을 붙혀놓은 형태입니다. 
+  - 함수는 한 번 정의해 두면 지정해 둔 함수 이름을 통해
+    언제든지 해당 코드 블록을 실행할 수 있습니다.
+  - 함수를 정의할 때는 def라는 키워드를 사용합니다.
+  - 함수를 호출하려면 반드시 호출문보다 상단에 정의해야한다.
+ ex)
+ 
+# 1~n까지의 누적합을 구하는 로직
+
+def calc_sum(x):
+  print("calc_sum 함수가 호출됨!")
+  sum = 0
+  for n in range(1,x+1):
+    sum+=n
+  return sum
+  
+# 함수의 호출
+
+print("1~100까지의 누적합 : ", calc_sum(100))
+print("1~200까지의 누적합 : ", calc_sum(200))
+print("1~300까지의 누적합 : ", calc_sum(300))
+print("1~400까지의 누적합 : ", calc_sum(400))
+
+num = calc_sum(10)
+print(type(num))
+-------------------------------------- ex
+def length(x):
+  count = 0
+  for a in x:
+    count += 1
+  return count
+
+li = [1,2,3,4,5,6,7,8,9,10]
+s = "python programming"
+
+print("내장함수 len(li) : ", len(li))
+print("내가만든 함수 length(li) : ", length(li))
+print("내장함수 len(s) : ", len(s))
+print("내가만든 함수 length(s) : ", length(s))
+------------------------------------- ex
+def order_info(food, drink):
+  f = "%s 음식을 구매 했습니다." % food
+  d = "%s 음료를 구매 했습니다." % drink
+  result = f + '\n' + d + '\n---------------'
+  return result
+
+print(order_info('피자','콜라'))
+------------------------------------- ex
+# 인수를 하나도 전달받지 않는 예
+
+def hi():
+  return '안녕하세요~ 반갑습니다.!'
+
+print(hi())
+
+
+--------------------------------- quiz (2)
+
+1. 인수를 정수형태로 시작값, 끝값을 입력받아
+  반복문으로 누적총합을 구하는 함수를 정의하세요.
+2. 함수 이름은 calc_rangesum으로 정의하세요.
+
+
+def calc_rangesum(start, end):
+  # if(start > end):
+      start, end = end ,start
+  sum = 0
+  for n in range(start,end+1):
+    sum+=n
+  return sum
+s = int(input("start 입력 : "))
+e = int(input("end 입력 : "))
+
+print("%d~%d까지의 누적합 : %d" % (s,e,calc_rangesum(s,e)))
+
+--------------------------------- 반환값
+* 반환값 (return value)
+
+ - 반환값이란 함수를 호출한 곳으로 함수의 최종 실행 결과값을
+  전달하는 값입니다.
+ - 함수의 반환값은 오직하나이지만 복수의 데이터를 반환할 땐 
+  컬렉션 자료형을 사용합니다. (list, tuple, set)
+ - return을 만나는 순간 함수가 종료된다.
+  ex)
+    def operate_all(n1,n2):
+    return n1 + n2, n1 - n2, n1 * n2, n1 / n2
+
+    result = tuple()
+
+    result = operate_all(10, 5)
+    print(result)
+    print(result[0])
+    print(result[1])
+    print(result[2])
+    print(result[3])
+    
+  - 모든 함수가 반환값이 있는것은 아닙니다.
+  ex)
+    def bad_words():
+    print("메롱메롱~")
+    print("약오르지~")
+    print("때려봐때려바~")
+
+    bad_words()
+    bad_words()
+    bad_words()
+
+------------------------------ ex
+def add(n1, n2):
+  return n1+ n2
+
+def multi(n1, n2):
+  result = n1 * n2
+  print("%d x %d = %d" % (n1,n2,result))
+
+multi(add(2,4), add(4,6))
+
+------------------------------ ex
+def divide(n1, n2):
+  if n2 == 0:
+    return
+  result = n1/ n2
+  print("%d / %d = %d" %(n1,n2,result))
+
+  divide(20,0)
+
+
+
+
+
+
+
+
