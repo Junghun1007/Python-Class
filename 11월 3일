@@ -1,0 +1,206 @@
+--------------------------- quiz (1)
+
+ # 3개의 숫자 중 최대값을 판별하여 리턴하는 함수를 정의
+
+def max_of_three(n1 , n2, n3):
+  max = 0
+  if n1 > n2:
+    max = n1
+  else:
+    max = n2
+  if n3 > max:
+    max = n3
+  return max
+
+print(max_of_three(1,16,7))
+
+
+# 여러값 받기
+
+# "10 20 30" -> ["10","20","30"]
+n1, n2, n3 = map(int, input("정수 3개를 입력 : ").split())
+print("%d %d %d 중 최대값은 : %d" %(n1,n2,n3,max_of_three(n1,n2,n3)))
+
+
+# 여러값을 한번에 함수에 적용하기
+
+def multi_triple(number):
+  return number ** 3
+
+li =[2,4,6,8,10]
+
+result = list(map(multi_triple, li))
+print(result)
+
+--------------------------------- quiz (2)
+
+
+def calc_divisor(n):
+  count = 0
+  for i in range(1, n+1):
+    if (n%i) == 0:
+      count += 1
+      print(i ,end=" ")
+  print("\n")
+  print("%d의 약수의 개수는 : %d" %(n,count))
+
+calc_divisor(72)
+
+
+--------------------------------- quiz (3)
+
+# 실수형태로 입력받은 키와 몸무게를 인수로 전달받아
+  bmi 지수를 계산하여 반환함과 동시에 25.0 이상이면 "당신은 과체중입니다."
+  18.5 이하면 " 당신은 저체중입니다."
+  나머지는 "당신은 정상체중입니다." 를 출력하는 calc_BMI라는 함수를 정의하고
+  호출하세요.
+
+
+def calc_BMI(t, m):
+  t = t * 0.01
+  bmi = m / (t * t)
+  if bmi >= 25:
+    print("당신은 과체중입니다.")
+  elif bmi >= 18.5:
+      print("당신은 정상체중입니다.")
+  else:
+      print(" 당신은 저체중입니다.")
+  print("키-> %.1fcm , 체중-> %.1fkg의 체질량 지수는 : %.2f입니다." %(t*100,m,bmi))
+
+cm = float(input("키를 입력하세요 : "))
+kg = float(input("몸무게를 입력하세요 : "))
+# cm, kg = map(float,input("키와 몸무게를 입력하세요 : ").split())
+
+calc_BMI(cm, kg)
+
+-------------------------------------
+
+ * 인수의 기본값
+  - 인수의 기본값을 설정하여 자주 바뀌지 않는 매개값은 기본값으로 처리할
+   수 있게 해줍니다.
+ex)
+def calc_stepsum(begin, end, step = 1):
+  sum = 0
+  for n in range(begin, end+1, step):
+    sum += n
+  return sum
+
+print(calc_stepsum(1,10))
+
+print("============================")
+
+# 기본값설정시 위치 확인
+
+def calc_sum(begin, end=10, step=1):  # def calc_sum(end,begin =0,step=1):
+  sum = 0
+  for n in range(begin, end+1, step):
+    sum += n
+  return sum
+
+print(calc_sum(1))
+
+  * 키워드 인수 (keyword argument)
+  - 인수의 개수가 많아지면 인수의 순서를 파악하기 어렵고
+    함수를 호출할 때 전달할 값의 위치를 헷갈릴 가능성이 높다.
+    ex)
+      def signup_user(id, pw, name, addr, email, phone...):
+  - 순서와 무관하게 인수를 전달할 수 있는 방법을 제공하여 인수의 이름을 직접
+    지정하여 값을 전달하는 키워드 인수 방식을 사용합니다.    
+    
+def calc_stepsum(begin, end, step): 
+  sum = 0
+  for n in range(begin, end+1, step):
+    sum += n
+  return sum
+
+# 위치 인수값을 사용
+print(calc_stepsum(3, 7, 1))
+# 키워드 인수값을 사용 (순서x)
+print(calc_stepsum(end = 7, step = 1, begin = 3))
+# 위치 인수와 키워드 인수의 혼합 사용
+print(calc_stepsum(3, step = 1, end = 7))
+print(calc_stepsum())
+
+print(3,6,9,sep="->",end="!")
+# print(sep="->",3,6,9,end="!") (x)
+
+
+------------------------- 가변 인수
+
+ * 위치 가변 인수
+  - 함수를 호출할 때는 함수 정의시에 지정한 인수의 개수만큼 값을 전달해야 합니다.
+  - 하지만 가변인수를 사용하면 하나의 인수로 여러개의 값을 받아서 처리할 수 있습니다.
+  - 위치 가변인수는 함수 정의부에서 인수를 선언할 때 인수 앞에 * 기호를 붙여 선언
+    하며 이런 경우에 여러개의 데이터를 튜플로 묶어 함수 내부로 전달합니다. 
+
+----------------------- ex
+def calc_total(*nums):
+  sum = 0
+  # print(type(nums))
+  for n in nums:
+    sum+=n
+  return sum
+
+
+print(calc_total(5,7,9,11,200))
+
+----------------------- ex
+def calc_points(name, *points): # 가변인수는 뒤에쓴다.
+  # def calc_points(*points, name):
+  print("%s 학생의 성적 계산..." % name)
+  total = 0
+  for p in points:
+    total+=p
+  return total
+result = calc_points("김철수", 97,100,80,100,55,60)
+  # result = calc_points(97,100,80,100,55,60, name ="김철수")
+print("총점 : %d" % result)
+
+------------------------------ quiz (3)
+
+  # 연습 1 
+    n개의 정수를 전달받아 평균값을 구하여
+    리턴하는 함수를 작성하세요. (get_avg)
+
+  # 연습 2
+    n개의 정수를 전달받아 가장 큰 숫자를 찾아서 
+    리턴하는 함수를 작성하세요. (get_max)
+    
+def get_avg(*nums):
+  count = 0
+  sum = 0
+  for n in nums:
+    count+=1
+    sum += n
+  return sum / count
+
+nums = (1, 3 ,210, 179, 55)
+
+def get_max(*nums):
+  max = nums[0]
+  for n in nums:
+    if n > max:
+      max = n
+  return max
+
+n1, n2, n3, n4, n5 = map(int, input("정수를 입력하세요 : ").split())
+print("get_avg의 값 : ", get_avg(n1,n2,n3,n4,n5))
+print("get_max의 값 : ", get_max(n1,n2,n3,n4,n5))
+
+
+# 가변배열처럼 하는법
+
+def get_avg(nums): - *을없앰
+li = list(map(int, input("정수를 입력하세요 : ").split()))
+print(get_avg(li))
+print(get_max(li))
+
+
+
+
+
+
+
+
+
+
