@@ -1,0 +1,101 @@
+-------------------------- 
+'''
+* 지역 변수 (local variable)
+
+- 지역변수란 함수 내부에 선언된 변수를 말합니다.
+
+- 지역변수는 함수 내부에서만 사용할 수 있으며
+ 함수의 호출이 종료되는 순간 메모리에서 자동으로 소멸됩니다.
+
+- 지역변수의 사용을 함수 내부로 제한하는 이유는
+ 변수의 이름 충돌을 피하고 메모리를 절약하기 위함입니다.
+'''
+def info():
+    name = "안녕" # 지역 변수
+    print(name)
+    
+# word = info() (x)
+# print(name) (x)
+name = "홍길동"
+print(name)
+
+------------------------- 전역변수
+
+'''
+* 전역 변수 (global variable)
+
+- 지역변수가 함수 내부에서만 사용하는 변수라면
+ 전역변수는 프로그램 전체에서 사용하는 공용 변수입니다.
+
+- 파이썬에서는 들여쓰기 없이 선언된 변수를 전역변수로
+ 취급하며, 전역변수는 함수 내부, 제어문 내부 등
+ 프로그램 어디에서나 사용이 가능합니다.
+'''
+sale_rate = 0.2 # 전역 변수
+
+def calc_price(price):
+    print("오늘의 할인율:",sale_rate)
+
+    today_price = price - (price * sale_rate) # 지역 변수
+    print("오늘의 가격:", today_price,"원")
+    print("-" * 40)
+
+calc_price(2000)
+# print(today_price)
+print(sale_rate)
+
+sale_rate = 0.3
+calc_price(2000)
+
+print("-" * 40)
+
+money = 1000 # 전역 변수
+
+def info():
+    print("info 함수가 호출됨!")
+    # 함수 내부에서 전역 변수를 사용하는 법.
+    global money
+    money = 20000 # 지역 변수
+
+    print("지역변수 money의 값:", money)
+    # 메모리 주소값을 확인하는 함수 id()
+    print("지역변수 money의 주소값:", id(money))
+
+info()
+print("전역변수 money의 값:", money)
+print("전역변수 money의 주소값:", id(money))
+
+-------------------- 참조변수
+a = 3
+b = a
+print(a, b)
+
+a = 5
+print(a, b)
+
+list1 = [1,2,3]
+list2 = list1
+print("list1:",list1)
+print("list2:",list2)
+
+list2[0] = 6
+list1[1] = 9
+print("list1:",list1)
+print("list2:",list2)
+print("list1의 주소값:",id(list1))
+print("list2의 주소값:",id(list2))
+
+print("-" * 40)
+list1 = [1,2,3]
+list2 = []
+list2 = list1.copy() # 리스트 내부 요소들을 복사하여 전달
+print("list1:",list1)
+print("list2:",list2)
+
+list1[0] = 9
+list2[1] = 6
+print("list1:",list1)
+print("list2:",list2)
+print("list1의 주소값:",id(list1))
+print("list2의 주소값:",id(list2))
+
