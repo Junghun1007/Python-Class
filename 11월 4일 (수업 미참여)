@@ -99,3 +99,192 @@ print("list2:",list2)
 print("list1의 주소값:",id(list1))
 print("list2의 주소값:",id(list2))
 
+
+---------------------------------- 인벤토리
+
+# 제품 1개당 필요한 정보
+# [제품번호, 제품명, 단가, 수량, 제품총액]
+
+inventory = []
+
+for x in range(2): # [0,1]
+    product = {}
+
+    print("\n# 제품 정보 등록을 시작합니다.")
+    product['제품번호'] = input("- 제품번호: ")
+    product['제품명'] = input("- 제품명: ")
+    product['단가'] = int(input("- 단가: "))
+    product['수량'] = int(input("- 수량: "))
+    product['제품총액'] = product['단가'] * product['수량']
+
+    print(product)
+    inventory.append(product)
+    print("\n제품 등록이 정상 처리되었습니다.")
+
+# print(inventory)
+print("\n\t\t\t *** 창고 재고 정보 ***")
+print("=" * 75)
+print("%s%10s%11s%12s%12s" % ("제품번호", "제품명", "단가", "수량", "제품총액"))
+print("=" * 75)
+
+for product in inventory:
+    print("%s%14s%13d원%10d개%16d원"
+    % (product['제품번호'], product['제품명'], product['단가'], product['수량'], product['제품총액']))
+
+---------------------------------- for~else
+
+# for ~ else문을 이용한 범위 안의 모든 소수 출력하기.
+
+n1, n2 = map(int, input("정수 2개를 입력하세요: ").split())
+
+if n1 > n2:
+    n1, n2 = n2, n1
+
+cnt = 0 # 소수의 갯수를 저장할 변수.
+
+for i in range(n1, n2+1): # 10, 30
+    for j in range(2, i):
+        if i % j == 0: 
+            break
+    else: # for문에서 break가 한번도 동작하지 않았을 경우 실행.
+        print("%d" % i, end=" ")
+        cnt += 1
+------------------------------------ quiz (1)
+# 사용자에게 보여줄 메뉴화면을 실행하는 함수
+def show_menu():
+    print("\n*** 재고 관리 프로그램 ***")
+    print("# 1. 제품 정보 등록하기")
+    print("# 2. 모든 제품 정보 조회")
+    print("# 3. 개별 제품 정보 조회")
+    print("# 4. 제품 정보 수정하기")
+    print("# 5. 제품 정보 삭제하기")
+    print("# 6. 프로그램 종료하기")
+
+    menu = input("# 메뉴를 입력하세요: ")
+    return menu
+
+# 1번
+def insert_product():
+    product = {}
+
+    print("\n# 제품 정보 등록을 시작합니다.")
+    product['제품번호'] = input("- 제품번호: ")
+    product['제품명'] = input("- 제품명: ")
+    product['단가'] = int(input("- 단가: "))
+    product['수량'] = int(input("- 수량: "))
+    product['제품총액'] = product['단가'] * product['수량']
+
+    inventory.append(product)
+    print("\n제품 등록이 정상 처리되었습니다.")
+
+# 2번
+def show_all_product():
+    all_price = 0 # 창고 재고의 전체 가격을 담아줄 변수
+    print("\n\t\t\t *** 창고 재고 정보 ***")
+    print("=" * 75)
+    print("%s%10s%11s%12s%12s" % ("제품번호", "제품명", "단가", "수량", "제품총액"))
+    print("=" * 75)
+
+    for product in inventory:
+        all_price += product['제품총액']
+        print("%s%14s%13d원%10d개%16d원"
+        % (product['제품번호'], product['제품명'], product['단가'], product['수량'], product['제품총액']))
+    print("=" * 75)
+    print("\t\t\t 창고 전체 제품 총액: %d원" % all_price)
+
+# 사용자에게 제품 번호를 입력받게 하는 함수.
+def input_code(info):
+    print("# %s하실 제품의 번호를 입력하세요: " % info)
+    code = input("- 제품번호")
+    return code
+
+# 3번: 메뉴 개별 제품조회를 수행할 함수
+def search_product():
+    # print("# 조회하실 제품 정보를 입력하세요.")
+    # code = input("-제품번호: ")
+    code = input_code("조회")
+
+    # 제품 번호에 해당하는 제품 정보만 출력되도록 작성.
+    # 사전에 해당 정보가 있는지 확인 후 있다면 해당 제품만 출력
+    # 없으면 없다고 말하기.
+    for product in inventory:
+        if code == product['제품번호']:
+            print("=" * 75)
+            print("%s%10s%11s%12s%12s" % ("제품번호", "제품명", "단가", "수량", "제품총액"))
+            print("=" * 75)
+            print("%s%14s%13d원%10d개%16d원"
+            % (product['제품번호'], product['제품명'], product['단가'], product['수량'], product['제품총액']))
+            break
+    else:
+        print("해당하는 제품 정보가 등록되지 않았습니다.")
+
+# 4번: 제품 정보 수정을 수행할 함수.
+def modify_product():
+    '''
+    - 제품 번호에 해당하는 제품의 단가와 수량을 선택적으로 수정할 수
+    있는 코드를 작성하세요.
+    (아래 메뉴는 입력받은 제품번호가 존재할 때만 보여주는 겁니다.)
+    ex) [1. 수량 변경 | 2. 단가 변경 | 3. 일괄 변경 | 4. 취소]
+    - 입력받은 제품번호가 없으면 없다고 얘기해 주세요.
+    '''
+    code = input_code("수정")
+
+    for product in inventory:
+        if code == product['제품번호']:
+            print("#[%s] 제품의 번호를 수정합니다." % product['제품명'])
+            print("[1. 수량 변경 | 2. 단가 변경 | 3. 일괄 변경 | 4. 취소]")
+            sel = input("=> ")
+            if sel == "1":
+                product['수량'] = int(input("- 수정할 수량: "))
+            elif sel == "2":
+                product['단가'] = int(input("- 수정할 단가: "))
+            elif sel == "3":
+                product['수량'] = int(input("- 수정할 수량: "))
+                product['단가'] = int(input("- 수정할 단가: "))
+            else:
+                print("변경을 취소합니다.")
+                continue
+            product['제품총액'] = product['단가'] * product['수량']
+            print("\n%s의 정보수정이 정상적으로 처리되었습니다." % product['제품명'])
+            break
+    else:
+        print("해당하는 제품 정보가 등록되지 않았습니다.")    
+
+# 사전의 주소값을 저장할 리스트를 선언.
+inventory = []
+
+while True:
+    menu = show_menu()
+
+    if menu == "1":
+        insert_product()
+    elif menu == "2":
+        show_all_product()
+    elif menu == "3":
+        search_product()
+    elif menu == "4":
+        pass
+    elif menu == "5":
+        pass
+    elif menu == "6":
+        break
+    else:
+        print("메뉴를 다시 입력하세요.")
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
