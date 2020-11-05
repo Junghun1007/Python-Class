@@ -144,6 +144,262 @@ while True:
     else:
         print("메뉴를 다시 입력하세요.")
 
+------------------------------- 모듈
+
+'''
+ * 모듈 임포트 
+
+ - 모듈은 파이썬 코드를 작성해 놓은 스크립트 파일이며 
+    모듈 안에는 변수, 함수 ,클래스 등이 정의되어 있습니다.
+
+ - 파이썬에서는 주요 기능들을 표준 모듈로 구성하여
+    표준 '라이브러리'로 제공하고 있습니다.
+ - 표준 모듈이나 외부 모듈을 현재 모듈로 불러서 사용할 때는ㄷ
+    import 라는 키워드를 사용합니다.
+
+'''
+import math
+# pi = 3.14
+print(5 * 5 * math.pi)
+print(math.sqrt(3))
+print(math.factorial(5))
+print(math.log(3, 5))
+print(math.pow(7, 4))
+
+
+--------------------------- ex
+
+from math import factorial, gcd
+
+print(factorial(3))
+print(factorial(4))
+print(factorial(10))
+
+print(gcd(12,18))
+
+import statistics as st
+
+li = [34, 55, 12,3,55,66,99]
+print("평균 : ", st.mean(li))
+print("분산 : ", st.variance(li))
+print("표준편차 : ", st.stdev(li))
+
+from math import factorial as fac
+print(fac(4))
+
+--------------------------------
+
+ * 사용자 정의 모듈
+
+ - 하나의 모듈 파일에 너무 많은 코드가 들어있으면 편집이
+    힘들어 지고 , 코드를 유지, 보수하는 데 어려움이 발생합니다.
+ - 관리 편의상 비슷한 기능들을 가진 코드를 여러 개의 모듈에 나누어 작성하는것이
+    좋음
+
+
+------------------------------- calculator.py
+
+def add(n1 , n2):
+    return n1 + n2
+def sub(n1, n2):
+    return n1 - n2
+
+def calc_sum(end):
+    sum = 0
+    for n in range(end+1):
+        sum += n
+    return sum
+
+def info():
+    print("모듈 임포트 연습!")
+inch = 2.54
+
+'''
+ * 테스트 코드 작성법.
+
+    - 처음부터 import를 목적으로 설계된 모듈의 테스트 코드 작성시
+        에는 다음과 같은 문법 하에서 테스트 실행.
+
+    ex) if __name__ == "__main__":
+        test code...
+    - __name__ 변수에는 현재 실행 중인 모듈의 이름이 저장되는데,
+        현재 모듈에서 실행할 때는 "__main__"이 저장됩니다.
+
+'''
+# print("__name__의 값 : ", __name__)
+
+if __name__ == "__main__": 
+    print("1~100까지의 누적합 : ", calc_sum(100))
+    info()
+    print(add(10, 15))
+    print("Hello python")
+
+------------------------------- module_basic03.py
+
+import calculator as cal
+
+print("1인치 : %2.fcm" % cal.inch)
+print("1~10까지의 누적합 : ", cal.calc_sum(10))
+
+
+---------------------------------- 표준 모듈 time
+
+'''
+
+ * 표준 모듈 time
+ - time 모듈은 시간 관련 기능들을 제공합니다.
+ - 대표적인 함수는 time()인데, 이 함수는 현재 시간을
+    1970년 1월 1일(협정세계시)) 자정을 기준으로 현재까지 경과한 시간을 초단위로 표현한
+    유닉스 시간을 반환합니다.
+ - time 모듈의 sleep() 함수는 cpu를 지정한 시간만큼 잠재워 아무것도
+    하지 않고 시간을 지연시킴.
+    
+'''
+
+import time
+
+# time함수를 이용한 프로그램 속도 측정 테스트
+
+start = time.time()
+sum = 0
+for n in range(5000000):
+    sum+=n
+end = time.time()
+print("프로그램 실행 속도 : %.8f초" % (end - start) )
+
+# 구구단 출력
+
+import time
+
+for dan in range(2, 10):
+    print(dan, "단")
+    for hang in range(1,10):
+        print("%d * %d = %d"%(dan,hang,dan*hang))
+        time.sleep(0.1)
+    print()
+    time.sleep(0.5)
+
+'''
+
+ * 표준 모듈 random
+ - 랜덤값을 난수라고 부르며, 난수를 쉽게 발생시키는 함수를 제공하는 모듈
+ - random()함수는 0이상 1.0 미만의 실수 난수값을 발생시킵니다.
+ 
+ - 정수 난수는 randint()함수를 사용합니다.
+ - randint()는 인수로 시작범위와 끝 범위를 지정한다. (이상,이하)
+ ex) randint(1, 10) 1~10까지
+
+'''
+
+
+
+pets = ['멍멍이', '야옹이','코끼리', '호랑이','비둘기']
+idx = r.randint(0,4)
+print("애완동물을 뭘 키울까?? : ",pets[idx])
+
+# choice() 함수는 리스트 내부의 임의의 요소를 랜덤으로 선택하여 리턴합니다.
+
+burger = ['맥도날드','버거킹','파파이스','KFC']
+print(r.choice(burger))
+
+# shuffle() 함수는 리스트의 요소를 무작위로 섞습니다.
+
+burger = ['맥도날드','버거킹','파파이스','KFC']
+print(burger)
+r.shuffle(burger)
+print(burger)
+r.shuffle(burger)
+print(burger)
+
+# sample() 함수는 리스트의 항목 중 n개를 무작위로 추출하여 새로운 리스트로 만든 후리턴.
+# 중복값은 자동으로 배제시키며 원본 리스트는 변하지 않습니다.
+
+burger = ['맥도날드','버거킹','파파이스','KFC']
+s_list = r.sample(burger, 2)
+print(s_list)
+
+
+------------------------------- quiz (2)
+# 로또 함수 만들기 ver.1
+
+
+# list 사용
+lotto_list = []
+while len(lotto_list) <6:
+    num = r.randint(1,45)
+    if num not in lotto_list:
+        lotto_list.append(num)
+lotto_list.sort()
+print(lotto_list)
+
+# set 사용
+lotto_set = set()
+while len(lotto_set) < 6:
+    num = r.randint(1,45)
+    lotto_set.add(num)
+lotto_set = list(lotto_set)
+lotto_set.sort()
+ 
+# sample() 사용
+lotto_nums = list(range(1,46))
+lotto = r.sample(lotto_nums, 6) # sample() 중복 배제
+lotto.sort()
+
+
+---------------------------------- quiz (3)
+
+# 로또 함수 만들기 ver.2
+
+'''
+ - 컬렉션 (리스트, 튜플, 집합)에 로또 번호를 6개를 랜덤으로 담아서
+ 오름차순으로 정렬하여 출력하세요.
+ 단 ,중복 숫자는 배제하세요.
+ 1~45사이의 정수 중 6개의 난수.
+
+
+'''
+lotto_nums = list(range(1,46))
+lotto = r.sample(lotto_nums, 6) # sample() 중복 배제
+lotto.sort()
+print("로또번호 : ", lotto)
+
+win =[] # 당첨번호
+win = r.sample(lotto_nums, 6)
+win.sort()
+
+print("당첨번호 : ", win)
+
+# 보너스 번호 생성
+
+while True:
+    num = r.randint(1, 45)
+    if num not in win:
+        bonus_num =num
+        break
+print("보너스 번호 : ",bonus_num)
+    
+cnt = 0 # 맞춘번호의 갯수를 저장할 변수
+
+for n in lotto:
+    if n in win:
+        cnt += 1
+    
+if cnt == 6:
+    print("1등입니다.")
+elif cnt == 5:
+    if bonus_num in lotto:
+        print("2등입니다.")
+    else:
+        print("3등입니다.")
+elif cnt == 4:
+    print("4등입니다.")
+elif cnt == 3:
+    print("5등입니다.")
+else:
+    print("꽝!")
+
+
+
 
 
 
