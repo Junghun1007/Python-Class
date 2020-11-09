@@ -1,0 +1,194 @@
+
+------------------------------------------- quiz (1)
+'''
+ * 사용자의 입력을 파일(xxx.txt)에 저장하는 프로그램을 작성하세요.
+(단, 프로그램을 다시 실행하더라도 파일명이 동일하다면 기존 작성한 내용을 그대로
+유지하고, 새로 입력된 내용이 추가되어야 합니다.
+또한, 파일명도 입력을 받아서 저장하세요.)
+
+
+'''
+
+    txt_list = list()
+
+    print("저장할 내용을 입력('그만'이라고 입력 시 종료됩니다.)")
+    while True:
+        txt = input("> ")
+        temp = "\n"
+        if txt !='그만':
+            txt_list.append(txt)
+            txt_list.append(temp)
+        else:
+            file_name = input("파일명 입력 : ")
+            file_path = "C:/Users/gusan/IoTest/" +file_name+".txt"
+            f = open(file_path, "a")
+            for s in txt_list:
+                f.write(s)
+            print("파일 저장 완료!")
+            f.close()
+------------------------------------------- 읽기 기능
+            
+'''
+
+ * 파일 읽기 기능(read)
+ 
+ - 파일로부터 데이터를 읽어들일 때는 분량에 따라 적당한 메소드를 선택해서 사용합니다.
+    1. read() : 파일 전체 데이터를 통째로 읽어서 리턴.
+    2. readline() : 파일 데이터를 한 줄씩 읽어서 리턴.
+      - 데이터를 줄 단위로 읽어들이기 때문에 메모리 부담을 줄일 수 있습니다.
+    3. readlines() : 파일 전체를 읽어서 한 줄씩 분리한 후에 리스트에 담아서 리턴.
+      - 데이터를 한 줄씩 읽어서 리스트에 담아서 리턴하기때문에 읽은 데이터를 리스트로 처리 가능
+
+'''            
+    ----------- read
+     try:
+        f = open(file_path,"r")
+        text = f.read()
+        print(text)
+    except:
+        print("파일 로드 실패")
+    finally:
+        f.close()   
+    ----------- readline
+    try:
+        f = open(file_path,"r")
+        while True:
+            text = f.readline()
+            if "야통" in text:
+                print(text)
+            if len(text) == 0:
+                break
+    except:
+        print("파일 로드 실패")
+    finally:
+        f.close()
+    ----------- readlines
+    try:
+        f = open(file_path,"r")
+        text = f.readlines()
+        print(text)
+    except:
+        print("파일 로드 실패")
+    finally:
+        f.close()
+--------------------------------------- quiz (2)
+
+file_path = r"C:\Users\gusan\IoTest\points.txt"
+
+file_path2 = r"C:\Users\gusan\IoTest\result.txt"
+
+def calc_sum(point_list):
+    sum = 0
+    for n in point_list:
+        sum+=n
+    return sum
+
+try:
+    f = open(file_path,"r")
+    points = f.readline()
+    # 리스트 내부의 자료형을 str-> int로 변환
+    point_list = list(map(int, points.split(",",9)))
+    result = open(file_path2, "w")
+    txt = "총점 : %d,  평균 : %.2f" % (calc_sum(point_list), calc_sum(point_list)/10)
+    result.write(txt)
+
+except:
+    print("파일 로드 실패")
+finally:
+    print("파일 저장 완료!")
+    f.close()
+    result.close()
+    
+-------------------------------------- class
+ 
+class Calculator:
+    result = 0
+    def add(self, n):
+        self.result += n
+    def sub(self, n):
+        self.result -= n
+
+# 계산기 객체 생성!
+
+cal1 = Calculator()
+cal2 = Calculator()
+cal3 = Calculator()
+cal4 = Calculator()
+
+cal1.add(17)
+cal1.add(13)
+cal1.add(5)
+
+cal2.add(34)
+cal2.add(22)
+cal2.add(435)
+
+cal3.add(423)
+cal3.sub(86)
+
+print("1번 결과 : %d" % cal1.result)
+print("2번 결과 : %d" % cal2.result)
+print("3번 결과 : %d" % cal3.result)
+print("4번 결과 : %d" % cal4.result)
+
+
+'''
+
+ - 클래스는 객체를 만들기 위한 일종의 설계도 입니다.
+ - 클래스는 객체의 속성(멤버변수)과 기능(메소드)의 집합입니다.
+ - 클래스 내부에 정의된 함수를 메소드라고 부릅니다.
+ - 클래스 이름은 앞글자를 대문자로 작성하는 것이 관례
+
+'''
+
+class Calculator:
+
+    # 클래스 안에 들여쓰기를 통해 정의된 함수를 메소드라고 하며, 
+    # 메소드의 첫번째 인수는 무조건 self입니다.
+    # self는 객체들을 구분하기 위한 용도의 인수값입니다.
+    def setting(self, color, n1, n2):
+        self.color = color
+        self.n1 = n1
+        self.n2 = n2
+    def add(self):
+        return self.n1 + self.n2
+
+'''
+
+ - 클래스가 모두 정의되었다면 해당 클래스를 통해 빠르고 쉽게
+    객체를 생성할 수 있습니다.
+ - 객체 생성 문법
+ ex) 변수 = 클래스이름()
+
+'''
+
+red_calc = Calculator() # 계산기 객체가 실제 메모리에 셋팅됨.
+blue_calc = Calculator() 
+
+# 객체 속성과 기능을 사용하는 법.
+# 1. 객체의 속성값을 참조 - > 객체변수명.속성이름
+# 2. 객체의 기능 참조 -> 객체변수명.메소드이름()
+
+red_calc.setting('빨간색',15,5)
+blue_calc.setting('파랑색',20,3)
+
+print("빨간계산기의 색깔 : ",red_calc.color)
+print("파랑계산기의 색깔 : ",blue_calc.color)
+
+print("빨간계산기의 계산 결과 : ", red_calc.add())
+print("파랑계산기의 계산 결과 : ", blue_calc.add())
+
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
