@@ -1,0 +1,201 @@
+------------------------- quiz (1)
+
+
+'''
+1. User 라는 클래스를 선언하고 메소드를선언
+
+2. 메소드는 setting이라는 메소드와 user_info라는 메소드
+
+3. setting()은 회원의 정보를 인수로 받아서 멤버변수를 선언해주는
+역할을합니다.(name, age, gender)
+
+4. ser_info()는 회원의 정보를 출력해주는 메소드
+
+'''
+
+  class User:
+
+
+      def setting(self, name, age, gender):
+          self.name = name
+          self.age = age
+          self.gender = gender
+
+      def user_info(self):
+          print("# 이름 : %s" % self.name)
+          print("# 나이 : %d" % self.age)
+          print("# 성별 : %s" % self.gender)
+
+  user1 = User()
+  user1.setting("홍길동", 20, "남자")
+  user1.user_info()
+
+
+-------------------------------- 생성자
+
+'''
+
+ * 생성자 (Constructor)
+ - 생성자는 객체가 생성될 때 자동으로 호출되는 메소드이며,
+    객체가 생성되자마다 해야 할 작업들을 기술하는 데 사용합니다.
+ - 파이썬에서는 클래스 내부의 메소드 이름을 __init__로 
+    작성하면 이 메소드를 생성자로 인식하게 됩니다.
+ - 생성자는 객체 생성 명령에 의해 자동으로 호출됩니다.
+
+'''
+
+  class User:
+      def __init__(self, name, age, gender):
+          print("생성자가 호출됨")
+          self.name = name
+          self.age = age
+          self.gender = gender
+
+      def user_info(self):
+          print("# 이름 : %s" % self.name)
+          print("# 나이 : %d" % self.age)
+          print("# 성별 : %s" % self.gender)
+
+  choi = User("최양락", 234, "남성")
+  choi.user_info()
+
+
+-------------------------------- quiz (2)
+
+'''
+
+1. Account 클래스를 선언하세요.
+2. 생성자를 정의하세요. (은행이름, 예금주, 비밀번호)
+    생성자를 정의할 때 계좌 잔액을 표시할 수 있는 변수
+    선언 (balance)
+3. 입금 기능을 가진 메소드를 선언하세요.(deposit)
+4. 출금 기능을 가진 메소드를 선언하세요.(withdraw)
+
+'''
+
+  class Account:
+      def __init__(self, brand, name, password):
+          self.name = name
+          self.brand = brand
+          self.password = password
+          self.balance = 0
+          print("계좌 생성 완료!")
+
+      def deposit(self, money):
+          self.balance += money
+          print("입금 후 잔액 : %d" % self.balance)
+
+      def withdraw(self, money):
+          self.balance -= money
+          print("출금 후 잔액 : %d" % self.balance)
+
+  A1 = Account("korea","오정훈","password")
+
+  A1.deposit(1000000)
+  A1.withdraw(5000)
+
+  A1.deposit(10000000000)
+
+
+----------------------------------------- quiz(3)
+
+
+  from class_con_quiz import Account
+
+  my_acc = Account("국민", "홍길동",1234)
+
+  print("예금주 :",my_acc.owner)
+
+  # 메뉴를 출력하는 기능.
+  def menu_info():
+      print("\n*** 계좌 관리 프로그램 ***")
+      print("# 1. 계좌 정보 조회")
+      print("# 2. 입금하기")
+      print("# 3. 출금하기")
+      print("# 4. 잔액 조회")
+      print("# 5. 프로그램 종료")
+
+  # 1번: 계좌 정보를 조회하는 기능
+  def account_info():
+      # 은행명, 예금주명, 잔액 정보를 출력하세요.
+      print("# 은행명 : ", my_acc.bank)
+      print("# 예금주명 : ", my_acc.owner)
+      print("# 잔액 : ", my_acc.balance)
+
+  # 2번: 입금.
+  def deposit_acc():
+      # 비밀번호를 입력받으세요.
+      # 입력받은 비번이 해당 계좌의 비번과 일치한다면 입금액을 받아서
+      # 입금 메서드를 통해 통장에 돈을 입금시키는 로직을 작성하세요.
+      password = int(input("# 비밀번호를 입력하세요 : "))
+      if password == my_acc.password:
+          money = int(input("# 입금액을 입력하세요 : "))
+          my_acc.balance += money
+          print("# 입금완료!!")
+      else:
+          print("# 비밀번호가 맞지 않습니다. ")
+          deposit_acc()
+
+  # 3번: 출금
+  def withdraw_acc():
+      # 비밀번호를 입력받으세요.
+      # 입력받은 비번이 통장비번과 일치하면 출금액을 다시 입력받아
+      # 출금메서드를 통해 통장에 돈을 출금시키세요.
+      # 단, 현재 잔액보다 출금액이 크다면 "잔액이 XX원 부족합니다." 를 출력하고
+      # 출금을 실행하지 않습니다. 
+      password = int(input("# 비밀번호를 입력하세요 : "))
+      if password == my_acc.password:
+          money = int(input("# 출금액을 입력하세요 : "))
+          if my_acc.balance < money:
+              print("# 잔액이 %d원 부족합니다. " % (money - my_acc.balance))
+          else:
+              my_acc.balance -= money
+              print("# 출금완료!!")
+      else:
+          print("# 비밀번호가 맞지 않습니다. ")
+          withdraw_acc()    
+
+  # 4번: 잔액 조회
+  def check_acc():
+      # 잔액을 출력해 주세요.
+     print("# 남아있는 잔액은 %d원 입니다. " % my_acc.balance)
+
+  while True:
+      menu_info()
+      menu = int(input("메뉴: "))
+      if menu == 1:
+          account_info()
+      elif menu == 2:
+          deposit_acc()
+      elif menu == 3:
+          withdraw_acc()
+      elif menu == 4:
+          check_acc()
+      elif menu == 5:
+          print("프로그램을 종료합니다.")
+          break
+      else:
+          print("메뉴를 잘못 입력하셨습니다.")
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
