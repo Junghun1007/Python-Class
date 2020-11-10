@@ -1,0 +1,193 @@
+--------------------------------- quiz (1)
+
+---------------------- class_stu.py
+  class Student:
+      def __init__(self):
+          self.id = None
+          self.name = None
+          self.kor = 0
+          self.eng = 0
+          self.math = 0
+          self.tot = 0
+          self.avg = 0.0
+          self.grade = None
+
+      # 학생의 정보를 입력받는 메서드
+      def input_stu_info(self):
+          self.id = input("- 학번: ")
+          self.name = input("- 이름: ")
+
+      def input_stu_score(self):
+          while True:
+              try:
+                  self.kor = int(input("- 국어: "))
+                  if self.kor > 100:
+                      print('잘못된 점수입니다.')
+                      continue
+                  self.eng = int(input("- 영어: "))
+                  self.math = int(input("- 수학: "))
+                  break
+              except:
+                  print("# 점수는 숫자로만 입력하세요.")
+                  continue
+
+      # 학생의 총점, 평균, 학점을 구해주는 메서드
+      def calc_tot_avg_grade(self):
+          self.tot = self.kor + self.eng + self.math
+          self.avg = self.tot / 3
+
+          if self.avg >= 90:
+              self.grade = 'A'
+          elif self.avg >= 80:
+              self.grade = 'B'
+          elif self.avg >= 70:
+              self.grade = 'C'
+          elif self.avg >= 60:
+              self.grade = 'D'
+          else:
+              self.grade = 'F'
+
+      # 학생의 정보를 일괄적으로 출력하는 메서드
+      def output_stu_info(self):
+          print("%4s %5s  %6d %8d %8d %8d %8.2f %5s"
+          % (self.id, self.name, self.kor, self.eng, self.math,
+          self.tot, self.avg, self.grade))
+
+  # 정보 출력 UI를 제공하는 함수
+
+  def show_point_ui():
+      print("\n       *** 성적표 ***")
+      print("="  * 70)
+      print("%s %5s %9s %5s %5s %5s %5s %5s"
+      %("학번", "이름", "국어", "영어", "수학", "총점", "평균", "학점"))
+      print("=" * 70)
+
+  if __name__ == "__main__":
+      students = []
+      for n in range(1):
+          stu = Student()
+          stu.input_stu_info()
+          stu.calc_tot_avg_grade()
+          students.append(stu)
+          
+---------------------- stu_import.py
+
+from class_stu import Student
+from class_stu import show_point_ui
+
+def menu_info():
+
+    print("\n *** 성적 관리 프로그램 ***")
+    print("1. 성적 정보 입력")
+    print("2. 전체 성적 조회")
+    print("3. 개인 성적 조회")
+    print("4. 성적 정보 수정")
+    print("5. 성적 정보 삭제")
+    print("6. 프로그램 종료")
+    print()
+
+# 1번 메뉴
+def f_input():
+    '''
+    1. 학생의 객체를 1개 생성합니다.
+    2. 학생의 객체에 속성값을 설정하는(점수를 입력하는) 메서드들을 호출.
+    3. 정보 저장이 완료된 객체를 리스트에 추가
+    4. 저장완료 메세지를 출력하세요. 
+    ex) "XXX 학생의 정보가 정상 입력되었습니다."
+    '''
+    stu = Student()
+    stu.input_stu_info()
+    stu.input_stu_score()
+    stu.calc_tot_avg_grade()
+    students.append(stu)
+    print("%s 학생의 정보가 정상 입력되었습니다. " % stu.name)
+    
+# 2번 메뉴
+def f_output():
+    '''
+    1. 리스트 안에 들어있는 학생 객체들의 정보를
+     반복문을 이용하여 전체 출력하세요.
+    
+    2. 우리반 전체 평균을 가장 아랫부분에 출력하세요.
+    '''
+    show_point_ui()
+    sum = 0
+    for stu in students:
+        sum += stu.avg
+        stu.output_stu_info()
+
+    print("== 전체 평균 : %.2f" % (sum / len(students)))
+
+# 3번 메뉴
+def f_search():
+    '''
+    1. 학번을 입력받으셔서 해당 학번과 일치하는 학생 객체를 리스트에서 찾아내서
+     그 학생의 정보만 출력하세요. 
+
+    2. 입력한 학번이 없으면 검색하지 못했다는 메세지를 출력하세요.
+    '''
+   
+    search_id = input("조회할 학생의 학번을 입력하세요 : ")
+    show_point_ui()
+    search_stu = chk_exist(search_id)
+    search_stu.output_stu_info()
+
+# 4번 메뉴.
+def f_update():
+    '''
+    1. 학번을 입력받아서 해당 학번이 존재한다면
+     새로운 국어, 영어, 수학점수를 입력받아서 객체에
+     대입해서 저장하세요.
+
+    2. 검색하지 못했다면 검색하지 못했다는 메세지를 출력하세요.
+    '''
+    update_id = input("수정할 학생의 학번을 입력하세요 : ")
+    update_stu = chk_exist(update_id)
+    update_stu.input_stu_score()
+    print("학생의 정보를 수정하였습니다. ")
+
+# 5번 메뉴
+def f_delete():
+    '''
+    1. 해당 학번과 일치하는 학생 객체를 리스트에서 찾아내서
+     그 학생 정보를 삭제하세요.
+    2. 없으면 없다고 메세지를 출력하세요.
+    '''
+    delete_id = input("삭제할 학생의 학번을 입력하세요 : ")
+    students.remove(chk_exist(delete_id)) # stu객체
+    print("학생의 정보를 삭제하였습니다. ")
+
+def chk_exist(id):
+    for stu in students:
+        if id == stu.id:
+            return stu
+    else:
+            print("존재하지 않는 학생입니다. ")
+            
+students = []
+stu_count = 0
+
+while True:
+    menu_info()
+    try:
+        menu = int(input("메뉴: "))
+    except:
+        print("메뉴는 숫자로만 입력하세요!")
+        continue
+    if menu == 1:
+        f_input()
+    elif menu == 2:
+        f_output()
+    elif menu == 3:
+        f_search()
+    elif menu == 4:
+        f_update()
+    elif menu == 5:
+        f_delete()
+    elif menu == 6:
+        print("프로그램을 종료합니다.")
+        break
+    else:
+        print("메뉴를 잘못 입력하셨습니다.")
+
+
