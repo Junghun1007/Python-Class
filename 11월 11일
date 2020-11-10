@@ -72,8 +72,7 @@
           
     ---------------------- stu_import.py
 
-    from class_stu import Student
-    from class_stu import show_point_ui
+    from class_stu import Student, show_point_ui
 
     def menu_info():
 
