@@ -143,6 +143,7 @@
         update_id = input("수정할 학생의 학번을 입력하세요 : ")
         update_stu = chk_exist(update_id)
         update_stu.input_stu_score()
+        update_stu.calc_tot_avg_grade()
         print("학생의 정보를 수정하였습니다. ")
 
     # 5번 메뉴
