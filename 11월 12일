@@ -1,0 +1,172 @@
+-------------------------------------- 알라딘 페이지 크롤링 (1)
+
+    from selenium import webdriver
+    # 뷰티풀 수프 임포트
+    from bs4 import BeautifulSoup
+    import time
+
+    driver = webdriver.Chrome(r"C:\Users\gusan\IoTest\chromedriver.exe")
+
+    driver.get("http://www.aladin.co.kr")
+    time.sleep(1.3)
+
+    driver.find_element_by_xpath('//*[@id="re_mallmenu"]/ul/li[3]/div/a/img').click()
+
+
+    # selenium 으로 현재 페이지의 html 소스코드를 전부 불러오기.
+    src = driver.page_source
+    # print(src)
+
+    # 뷰티풀 수프 객체 생성.
+    soup = BeautifulSoup(src,'html.parser')
+
+    '''
+     - 뷰티풀수프를 사용하여 수집하고 싶은 데이터가 들어있는 태그를 부분 추출할 수 있습니다.
+     - find_all(tag)메소드는 인수값으로 추출하고자 하는 태그의 이름을 적으면 해당 태그만 전부 추출하여 리스트에 담아 대입합니다.
+
+    '''
+
+    div_list = soup.find_all('div',class_='ss_book_box')
+
+    # print("div_list에 들어 있는 데이터의 수 : ",len(div_list))
+    # print(div_list[0])
+
+    first_book = div_list[0].find_all('li')
+
+    # print(first_book)
+
+    # text는 태그를 제외한 사용자가 실제로 브라우저에서 확인 가능한 
+    # 텍스트만을 추출하여 문자열 형태로 반환합니다. (2, 3, 4)
+
+    book_title = first_book[1].text
+    book_author = first_book[2].text
+    book_price = first_book[3].text
+
+    auth_info = book_author.split("|")
+
+    print("# 제목 : ", book_title)
+    print("# 저자 : ", auth_info[0])
+    print("# 출판사 : ",auth_info[1])
+    print("# 출판연월 : ",,auth_info[1])
+    print("# 가격 : ", book_price.split(", ")[0])
+    
+ ----------------------------------------------- 알라딘페이지 크롤링 (2)
+ 
+  from selenium import webdriver
+  # 뷰티풀 수프 임포트
+  from bs4 import BeautifulSoup
+  import time
+
+
+  file_path = r"C:\Users\gusan\IoTest\알라딘 베스트 셀러 1~50위 2020.txt"
+
+  try:
+      f = open(file_path,'w')
+
+      driver = webdriver.Chrome(r"C:\Users\gusan\IoTest\chromedriver.exe")
+      driver.get("http://www.aladin.co.kr")
+      time.sleep(1.3)
+      # 베스트셀러 클릭
+      driver.find_element_by_xpath('//*[@id="re_mallmenu"]/ul/li[3]/div/a/img').click()
+
+      src = driver.page_source
+      soup = BeautifulSoup(src, 'html.parser')
+      # 북 source 리스트
+      bs_div = soup.find_all('div',class_='ss_book_box')
+
+      rank = 1
+      for book in bs_div:
+          book_info = book.find_all('li')
+          if book_info[0].text[0] == "[":
+              book_title = book_info[1].text
+              book_author = book_info[2].text
+              book_price = book_info[3].text
+          else:
+              book_title = book_info[0].text
+              book_author = book_info[1].text
+              book_price = book_info[2].text
+          auth_info = book_author.split("|")
+          f.write("# 순위 : %d\n" % rank)
+          f.write("# 제목 : ",book_title +"\n")
+          f.write("# 저자 : ",auth_info[0]+"\n")
+          f.write("# 출판사 : ",auth_info[1]+"\n")
+          f.write("# 출판연일 : ",auth_info[2]+"\n")
+          f.write("# 가격 : ",book_price.split(", ")[0]+"\n")
+          f.write("=================================")
+          rank+=1
+  except:
+      print("파일 저장 실패 !")
+  finally:
+      f.close()
+      
+-------------------------------------- 날짜 함수
+
+  '''
+
+   * 표준 모듈 datetime
+   - 운영체제의 현재 시간과 날짜 정보를 파이썬 내부로 읽어오는 기능을 제공하는 모듈입니다.
+
+   '''
+
+  from datetime import datetime
+
+   # 오늘 날짜와 현재 시간 정보를 가지고 있는 객체를 리턴.
+
+  d = datetime.today()
+  print(d)
+  print("지금은 %d년 %d월 %d일 %d시 %d분 %d초입니다. " %(d.year, d.month, d.day, d.hour, d.minute, d.second))
+
+ ----------------------------------------------- 알라딘페이지 크롤링 (3)
+
+  from selenium import webdriver
+  import time, codecs
+  from datetime import datetime
+  from bs4 import BeautifulSoup
+
+  d = datetime.today()
+  file_path = 'C:/Users/gusan/IoTest/알라딘 베스트셀러 1~400위_%d_%d_%d 기준.txt' %(d.year, d.month, d.day)
+
+  # with 문을 사용하면 with블록을 벗어나는 순간 객체가 자동으로 닫힙니다.
+  # with문 작성 시 사용할 객체의 이름을 as 뒤에 작성해 줍니다.
+  with codecs.open(file_path,mode = 'w', encoding='utf-8') as f:
+      driver = webdriver.Chrome(r"C:\Users\gusan\IoTest\chromedriver.exe")
+      driver.get('http://www.aladin.co.kr')
+      time.sleep(1)
+      driver.find_element_by_xpath('//*[@id="re_mallmenu"]/ul/li[3]/div/a/img').click()
+      src = driver.page_source
+      soup = BeautifulSoup(src, 'html.parser')
+      bs_div = soup.find_all('div',class_='ss_book_box')
+      rank = 1
+      for i in range(2,10):
+          if i != 2:
+              driver.find_element_by_xpath('//*[@id="newbg_body"]/div[3]/ul/li[%d]/a' % i).click()
+              f.write("               %d위부터                \n" % rank)
+          time.sleep(1.5)
+          for book in bs_div:
+              # 북 리스트에서 정보가들어있는 태그 받아오기
+              book_info = book.find_all('li')
+
+              if book_info[0].text[0] == "[":
+                  # 태그에서 제목만 남기고 텍스트 반환
+                  book_title = book_info[1].text
+                  book_author = book_info[2].text
+                  book_price = book_info[3].text
+              else:
+                  book_title = book_info[0].text
+                  book_author = book_info[1].text
+                  book_price = book_info[2].text  
+              auth_info = book_author.split("|")
+              f.write("# 순위 : %d\n" % rank)
+              f.write("# 제목 : "+book_title +"\n")
+              f.write("# 저자 : "+auth_info[0]+"\n")
+              f.write("# 출판사 : "+auth_info[1]+"\n")
+              f.write("# 출판연일 : "+auth_info[2]+"\n")
+              f.write("# 가격 : "+book_price.split(", ")[0]+"\n")
+              f.write("=================================\n")
+              rank+=1
+
+
+
+
+
+
